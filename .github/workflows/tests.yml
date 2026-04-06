@@ -53,8 +53,11 @@ jobs:
         run: |
           nohup env CI=false BROWSER=none REACT_APP_API_URL=http://127.0.0.1:4000 npm start > frontend.log 2>&1 &
 
-      - name: Wait for frontend
-        run: npx wait-on http://127.0.0.1:3000
+      - name: Wait for frontend to be ready
+        run: |
+            npx wait-on http://127.0.0.1:3000
+            echo "Waiting for React to fully compile..."
+            sleep 15
 
       - name: Check backend health
         run: curl -f http://127.0.0.1:4000/health
