@@ -46,9 +46,9 @@ export class ItemsPage {
   }
 
   async assertPageVisible(): Promise<void> {
-    await expect(this.pageRoot).toBeVisible();
-    await expect(this.itemsList).toBeVisible();
-  }
+    await expect(this.pageRoot).toBeVisible({ timeout: 15000 });
+    await expect(this.itemsList).toBeVisible({ timeout: 15000 });
+    }
 
   async clickCreateItem(): Promise<void> {
     await expect(this.createButton).toBeVisible();

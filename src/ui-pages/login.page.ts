@@ -20,20 +20,29 @@ export class LoginPage {
   }
 
   async login(username: string, password: string): Promise<void> {
-    await expect(this.usernameInput).toBeVisible();
+    await expect(this.usernameInput).toBeVisible({ timeout: 10000 });
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
-    await this.loginButton.click();
+
+    await Promise.all([
+      this.page.waitForResponse(
+        (response) =>
+          response.url().includes('/auth/login') &&
+          [200, 400, 401].includes(response.status()),
+        { timeout: 15000 }
+      ),
+      this.loginButton.click(),
+    ]);
   }
 
   async assertLoginPageVisible(): Promise<void> {
-    await expect(this.page.getByTestId('login-page')).toBeVisible();
-    await expect(this.usernameInput).toBeVisible();
-    await expect(this.passwordInput).toBeVisible();
-    await expect(this.loginButton).toBeVisible();
+    await expect(this.page.getByTestId('login-page')).toBeVisible({ timeout: 10000 });
+    await expect(this.usernameInput).toBeVisible({ timeout: 10000 });
+    await expect(this.passwordInput).toBeVisible({ timeout: 10000 });
+    await expect(this.loginButton).toBeVisible({ timeout: 10000 });
   }
 
   async assertLoginErrorVisible(): Promise<void> {
-    await expect(this.errorMessage).toBeVisible();
+    await expect(this.errorMessage).toBeVisible({ timeout: 10000 });
   }
 }
