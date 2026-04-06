@@ -1,0 +1,10 @@
+node_modules/
+playwright-report/
+test-results/
+dist/
+build/
+coverage/
+.env
+.DS_Store
+app/backend/node_modules/
+app/frontend/node_modules/
