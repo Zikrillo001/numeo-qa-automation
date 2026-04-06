@@ -23,16 +23,7 @@ export class LoginPage {
     await expect(this.usernameInput).toBeVisible({ timeout: 10000 });
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
-
-    await Promise.all([
-      this.page.waitForResponse(
-        (response) =>
-          response.url().includes('/auth/login') &&
-          [200, 400, 401].includes(response.status()),
-        { timeout: 15000 }
-      ),
-      this.loginButton.click(),
-    ]);
+    await this.loginButton.click();
   }
 
   async assertLoginPageVisible(): Promise<void> {
