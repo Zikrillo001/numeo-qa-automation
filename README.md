@@ -1,147 +1,130 @@
-# 🧪 Numeo QA Automation Project
+# ✅ FINAL (CLEAN + PROFESSIONAL) README
 
-A production-style QA automation framework designed to validate a full-stack application (Node.js backend + React frontend) using API and End-to-End testing.
+```md
+# 🧪 Numeo QA Automation Framework
 
-This project demonstrates real-world QA engineering practices including:
-- API test automation
+A production-style QA automation framework for validating a full-stack application (Node.js backend + React frontend) using API and End-to-End testing.
+
+This project demonstrates real-world QA engineering practices:
+- API testing
 - UI (E2E) automation
 - CI/CD integration
 - Flaky system handling
-- Clean architecture and maintainability
+- Clean and scalable architecture
 
 ---
 
 ## 🚀 Tech Stack
 
-**Testing:**
 - Playwright (E2E + API)
 - TypeScript
-
-**Backend (System Under Test):**
-- Node.js (Express)
-
-**Frontend:**
-- React (SPA)
-
-**CI/CD:**
-- GitHub Actions
+- Node.js (backend under test)
+- React (frontend under test)
+- GitHub Actions (CI)
 
 ---
 
 ## 📁 Project Structure
 
-```bash
+```
+
 numeo-qa-automation/
 │
 ├── app/
-│ ├── backend/ # Demo API server
-│ └── frontend/ # React UI
+│   ├── backend/        # Demo API (Express)
+│   └── frontend/       # React application
 │
 ├── src/
-│ ├── api-clients/ # API abstraction layer
-│ ├── ui-pages/ # Page Object Model (POM)
-│ └── utils/ # Helpers (logger, config)
+│   ├── api-clients/    # API abstraction layer
+│   ├── ui-pages/       # Page Object Model (POM)
+│   └── utils/          # Helpers (logger, config)
 │
 ├── tests/
-│ ├── api/ # API test suite
-│ ├── e2e/ # End-to-End tests
-│ └── fixtures/ # Test data
+│   ├── api/            # API tests
+│   ├── e2e/            # End-to-End tests
+│   └── fixtures/       # Test data
 │
 ├── playwright.config.ts
-├── tsconfig.json
 └── .github/workflows/tests.yml
-```
 
+```
 
 ---
 
 ## 🧠 Test Strategy
 
-### 1. API Tests
-Located in: `tests/api/`
+### API Tests (`tests/api`)
+- Authentication (valid / invalid)
+- Authorization checks
+- CRUD operations
+- Negative scenarios (invalid payloads)
 
-Covers:
-- Authentication (valid & invalid)
-- Authorization (unauthorized access)
-- CRUD operations on items
-- Data validation and edge cases
-
----
-
-### 2. E2E Tests
-Located in: `tests/e2e/`
-
-Covers:
+### E2E Tests (`tests/e2e`)
 - Login flow (valid / invalid)
-- Full CRUD lifecycle (create → update → delete)
-- UI validation (form validation, error handling)
-
----
-
-### 3. Error Handling
-- Invalid login scenarios
-- Required field validation
-- API failure scenarios
+- Full item lifecycle (create → update → delete)
+- UI validation (forms, errors)
 
 ---
 
 ## 🏗️ Architecture
 
-### Page Object Model (POM)
-UI tests follow POM for maintainability:
+### Page Object Model
+UI interactions are encapsulated in page objects:
 
-```bash
+```
+
 src/ui-pages/
 login.page.ts
 items.page.ts
+
 ```
 
 ### API Client Layer
 
-```bash
+```
+
 src/api-clients/
 auth.client.ts
 items.client.ts
+
 ```
 
-
-Benefits:
-- Reusability
-- Clean separation of concerns
-- Easier debugging
+This separation improves:
+- readability
+- reusability
+- maintainability
 
 ---
 
 ## 🔍 Observability
 
-The framework includes rich debugging support:
+The framework provides:
 
-- ✅ HTML reports
-- 📸 Screenshots on failure
-- 🎥 Video recording on failure
-- 🔎 Playwright trace (on retry)
-- 🧾 Structured step logging
+- HTML test reports
+- Screenshots on failure
+- Video recording on failure
+- Playwright traces (on retry)
+- Structured step logging
 
 ---
 
 ## ⚙️ Environment Configuration
 
-Environment variables:
+Example variables:
 
-```bash
-FRONTEND_URL=http://localhost:3000
+```
 
-API_URL=http://localhost:4000
-
+FRONTEND_URL=[http://localhost:3000](http://localhost:3000)
+API_URL=[http://localhost:4000](http://localhost:4000)
 USERNAME=admin
 PASSWORD=admin123
 CHAOS_ENABLED=false
-```
 
+````
 
 ---
 
-## ▶️ How to Run Locally
+## ▶️ Running Locally
 
 ### 1. Install dependencies
 
@@ -149,15 +132,31 @@ CHAOS_ENABLED=false
 npm install
 cd app/backend && npm install
 cd ../frontend && npm install
+````
+
+### 2. Start backend
+
+```bash
+cd app/backend
+npm start
+```
+
+### 3. Start frontend
+
+```bash
+cd app/frontend
+npm start
 ```
 
 ### 4. Run tests
-API tests
+
+API tests:
 
 ```bash
 npm run test:api
 ```
-E2E tests
+
+E2E tests:
 
 ```bash
 npm run test:e2e
@@ -165,67 +164,88 @@ npm run test:e2e
 
 ---
 
-### 📊 Reports
-
-After running tests:
+## 📊 Reports
 
 ```bash
 npx playwright show-report
 ```
 
-### 🔄 CI/CD (GitHub Actions)
+---
 
-Pipeline includes:
+## 🔄 CI/CD
 
-Dependency installation
-Backend & frontend startup
-Health checks
-API tests execution
-E2E tests execution
-Artifacts upload (reports, logs)
+GitHub Actions pipeline:
 
-Workflow file:
+* installs dependencies
+* starts backend & frontend
+* waits for services readiness
+* runs API and E2E tests
+* uploads reports and logs
 
-```bash
+Workflow:
+
+```
 .github/workflows/tests.yml
 ```
 
 ---
 
-### ⚠️ Flaky System Simulation
+## ⚠️ Flaky System Simulation
 
-The backend includes optional chaos mode:
+The backend supports chaos mode:
 
-Random delays
-Random 500 errors
+* random delays
+* random 500 errors
 
-Controlled via:
+Enable via:
 
 ```bash
 CHAOS_ENABLED=true
 ```
+
 Purpose:
 
-Validate test stability
-Simulate real-world conditions
+* test resilience
+* simulate real-world instability
 
+---
 
-🧩 Key Design Decisions
-UI tests rely on UI state, not network interception → more stable
-API and UI layers are separated
-Test data is centralized
-Minimal hardcoding
-CI designed for reproducibility
-🚧 Known Limitations
-No database persistence (in-memory store)
-Limited negative UI scenarios
-No parallel execution tuning in CI (for stability)
-📌 Future Improvements
-Add contract testing
-Integrate Allure reporting
-Add performance tests (k6 / JMeter)
-Expand test coverage (edge cases)
-Dockerize services
-👨‍💻 Author
+## 🧩 Key Decisions
 
-QA Automation Engineer
+* UI tests rely on **UI state**, not network interception
+* API and UI layers are separated
+* minimal hardcoding
+* CI optimized for stability (no aggressive parallelism)
+
+---
+
+## 🚧 Limitations
+
+* in-memory data storage (no persistence)
+* limited UI negative scenarios
+* CI parallel execution disabled for stability
+
+---
+
+## 📌 Future Improvements
+
+* Allure reporting integration
+* performance testing (k6 / JMeter)
+* Docker setup
+* extended test coverage
+
+---
+
+## 🎯 Summary
+
+This project demonstrates:
+
+* structured QA automation framework
+* API + E2E coverage
+* CI integration
+* debugging and stability practices
+
+Designed to reflect real-world QA engineering standards.
+
+```
+
