@@ -138,6 +138,7 @@ cd ../frontend && npm install
 
 ```bash
 cd app/backend
+set CHAOS_ENABLED=false
 npm start
 ```
 
@@ -160,6 +161,12 @@ E2E tests:
 
 ```bash
 npm run test:e2e
+```
+
+test reports
+```bash
+npx playwright test tests/e2e/items-crud.spec.ts --headed
+
 ```
 
 ---

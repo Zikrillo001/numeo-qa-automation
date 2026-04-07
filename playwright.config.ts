@@ -15,8 +15,8 @@ export default defineConfig({
   reporter: [['html'], ['list']],
   use: {
     baseURL: process.env.FRONTEND_URL || 'http://localhost:3000',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: 'on',
+    video: 'on',
+    trace: 'on',
   },
 });

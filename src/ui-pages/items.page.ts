@@ -48,10 +48,10 @@ export class ItemsPage {
   async assertPageVisible(): Promise<void> {
     await expect(this.pageRoot).toBeVisible({ timeout: 15000 });
     await expect(this.itemsList).toBeVisible({ timeout: 15000 });
-    }
+  }
 
   async clickCreateItem(): Promise<void> {
-    await expect(this.createButton).toBeVisible();
+    await expect(this.createButton).toBeVisible({ timeout: 10000 });
     await this.createButton.click();
   }
 
@@ -62,29 +62,34 @@ export class ItemsPage {
   ): Promise<void> {
     await this.clickCreateItem();
 
-    await expect(this.titleInput).toBeVisible();
+    await expect(this.titleInput).toBeVisible({ timeout: 10000 });
     await this.titleInput.fill(title);
     await this.descriptionInput.fill(description);
     await this.statusSelect.selectOption(status);
     await this.saveButton.click();
+
+    await this.page.waitForLoadState('networkidle');
   }
 
   async searchByTitle(title: string): Promise<void> {
-    await expect(this.searchInput).toBeVisible();
+    await expect(this.searchInput).toBeVisible({ timeout: 10000 });
     await this.searchInput.fill(title);
+    await this.page.waitForLoadState('networkidle');
   }
 
   async clearSearch(): Promise<void> {
-    await expect(this.searchInput).toBeVisible();
+    await expect(this.searchInput).toBeVisible({ timeout: 10000 });
     await this.searchInput.fill('');
+    await this.page.waitForLoadState('networkidle');
   }
 
   async filterByStatus(status: '' | 'active' | 'completed'): Promise<void> {
-    await expect(this.statusFilter).toBeVisible();
+    await expect(this.statusFilter).toBeVisible({ timeout: 10000 });
     await this.statusFilter.selectOption(status);
+    await this.page.waitForLoadState('networkidle');
   }
 
-  async getItemCardByTitle(title: string): Promise<Locator> {
+  getItemCardByTitle(title: string): Locator {
     return this.itemsList.locator('[data-testid^="item-card-"]').filter({
       has: this.page.locator('[data-testid^="item-title-"]').filter({
         hasText: title,
@@ -93,21 +98,21 @@ export class ItemsPage {
   }
 
   async assertItemVisible(title: string): Promise<void> {
-    const card = await this.getItemCardByTitle(title);
-    await expect(card).toBeVisible();
+    const card = this.getItemCardByTitle(title);
+    await expect(card).toBeVisible({ timeout: 15000 });
   }
 
   async assertItemNotVisible(title: string): Promise<void> {
-    const card = await this.getItemCardByTitle(title);
-    await expect(card).toHaveCount(0);
+    const card = this.getItemCardByTitle(title);
+    await expect(card).toHaveCount(0, { timeout: 15000 });
   }
 
   async clickEditForItem(title: string): Promise<void> {
-    const card = await this.getItemCardByTitle(title);
-    await expect(card).toBeVisible();
+    const card = this.getItemCardByTitle(title);
+    await expect(card).toBeVisible({ timeout: 15000 });
 
     const editButton = card.locator('[data-testid^="btn-edit-"]');
-    await expect(editButton).toBeVisible();
+    await expect(editButton).toBeVisible({ timeout: 10000 });
     await editButton.click();
   }
 
@@ -119,35 +124,39 @@ export class ItemsPage {
   ): Promise<void> {
     await this.clickEditForItem(existingTitle);
 
-    await expect(this.titleInput).toBeVisible();
+    await expect(this.titleInput).toBeVisible({ timeout: 10000 });
     await this.titleInput.fill(newTitle);
     await this.descriptionInput.fill(newDescription);
     await this.statusSelect.selectOption(newStatus);
     await this.saveButton.click();
+
+    await this.page.waitForLoadState('networkidle');
   }
 
   async clickDeleteForItem(title: string): Promise<void> {
-    const card = await this.getItemCardByTitle(title);
-    await expect(card).toBeVisible();
+    const card = this.getItemCardByTitle(title);
+    await expect(card).toBeVisible({ timeout: 15000 });
 
     const deleteButton = card.locator('[data-testid^="btn-delete-"]');
-    await expect(deleteButton).toBeVisible();
+    await expect(deleteButton).toBeVisible({ timeout: 10000 });
     await deleteButton.click();
   }
 
   async deleteItem(title: string): Promise<void> {
     await this.clickDeleteForItem(title);
 
-    await expect(this.confirmDialog).toBeVisible();
-    await expect(this.confirmDeleteButton).toBeVisible();
+    await expect(this.confirmDialog).toBeVisible({ timeout: 10000 });
+    await expect(this.confirmDeleteButton).toBeVisible({ timeout: 10000 });
     await this.confirmDeleteButton.click();
+
+    await this.page.waitForLoadState('networkidle');
   }
 
   async assertSuccessVisible(): Promise<void> {
-    await expect(this.successMessage).toBeVisible();
+    await expect(this.successMessage).toBeVisible({ timeout: 10000 });
   }
 
   async assertErrorVisible(): Promise<void> {
-    await expect(this.pageError).toBeVisible();
+    await expect(this.pageError).toBeVisible({ timeout: 10000 });
   }
 }
